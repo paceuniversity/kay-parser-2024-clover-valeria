@@ -47,13 +47,17 @@ public class ConcreteSyntax {
 
 	public Program program() {
 		// Program --> main '{' Declarations Statements '}'
-		match("main");
-		match("{");
-		Program x = new Program();
-		x.decpart = declarations();  
-    	x.body = statements();         
-    	match("}");                
-   	 	return x;
+		String[] header = { "main", "{" };
+		Program p = new Program();
+		
+		for (int i = 0; i < header.length; i++)
+			// bypass " main { "
+			match(header[i]);
+		p.decpart = declarations();
+		p.body = statements();
+		match("}");
+		
+		return p;
 		}
 
 	private Declarations declarations() {
@@ -81,7 +85,7 @@ public class ConcreteSyntax {
 		else if (token.getValue().equals("bool"))
 			t = new Type(token.getValue());
 		else
-			throw new RuntimeException(SyntaxError("integer | bool")); //changed confusing wording
+			throw new RuntimeException(SyntaxError("int | boolean")); //changed confusing wording
 		token = input.nextToken(); // pass over the type
 		return t;
 	}
