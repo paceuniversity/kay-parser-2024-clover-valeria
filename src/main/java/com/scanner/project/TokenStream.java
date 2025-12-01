@@ -32,7 +32,6 @@ public class TokenStream {
 	public TokenStream(String fileName) {
 	    try {
 	        input = new BufferedReader(new FileReader(fileName));
-	        nextChar = readChar();   // <- You MUST restore this
 	    } catch (FileNotFoundException e) {
 	        System.out.println("File not found: " + fileName);
 	        isEof = true;
@@ -269,6 +268,7 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
 
