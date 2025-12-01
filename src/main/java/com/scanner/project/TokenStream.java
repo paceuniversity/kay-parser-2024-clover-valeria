@@ -60,7 +60,6 @@ public class TokenStream {
 				while (!isEof && !isEndOfLine(nextChar)){
 					nextChar = readChar();
 				}
-				nextChar = readChar(); //move past new line
 				skipWhiteSpace();
 			} else {
 				// A slash followed by anything else must be an operator.
@@ -271,5 +270,6 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
