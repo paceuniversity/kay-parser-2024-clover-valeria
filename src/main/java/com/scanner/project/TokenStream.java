@@ -141,6 +141,10 @@ public class TokenStream {
 				}
 				return t;
 
+			case '*':
+				nextChar = readChar();
+				return t;
+					
 			default: // all other operators
 				nextChar = readChar();
 				return t;
@@ -268,6 +272,7 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
 
