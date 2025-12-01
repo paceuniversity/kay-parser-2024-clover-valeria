@@ -30,15 +30,14 @@ public class TokenStream {
 	// Constructor
 	// Pass a filename for the program text as a source for the TokenStream.
 	public TokenStream(String fileName) {
-		try {
-			input = new BufferedReader(new FileReader(fileName));
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found: " + fileName);
-			// System.exit(1); // Removed to allow ScannerDemo to continue
-			// running after the input file is not found.
-			isEof = true;
-		}
-	}
+	    try {
+	        input = new BufferedReader(new FileReader(fileName));
+	        nextChar = readChar();   // <- You MUST restore this
+	    } catch (FileNotFoundException e) {
+	        System.out.println("File not found: " + fileName);
+	        isEof = true;
+	    }
+}
 
 	public Token nextToken() { // Main function of the scanner
 								// Return next token type and value.
@@ -270,6 +269,7 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
 
