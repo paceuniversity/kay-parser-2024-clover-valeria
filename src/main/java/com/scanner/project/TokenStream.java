@@ -37,7 +37,7 @@ public class TokenStream {
 	        System.out.println("File not found: " + fileName);
 	        isEof = true;
 	    }
-}
+	}
 
 	public Token nextToken() { // Main function of the scanner
 								// Return next token type and value.
@@ -269,6 +269,7 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
 
