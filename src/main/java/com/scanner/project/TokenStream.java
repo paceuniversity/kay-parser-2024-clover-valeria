@@ -38,7 +38,6 @@ public class TokenStream {
 			// running after the input file is not found.
 			isEof = true;
 		}
-		nextChar=readChar();
 	}
 
 	public Token nextToken() { // Main function of the scanner
@@ -241,7 +240,7 @@ public class TokenStream {
 	}
 
 	private boolean isEndOfToken(char c) { // Is the value a seperate token?
-		return (isWhiteSpace(c) || isOperator(c) || isSeparator(c) || isEof);
+		return (isWhiteSpace(nextChar) || isOperator(nextChar) || isSeparator(nextChar) || isEof);
 	}
 
 	private void skipWhiteSpace() {
@@ -272,4 +271,5 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
