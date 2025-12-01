@@ -113,7 +113,6 @@ public class TokenStream {
 				if (nextChar == '|') {
 					t.setValue(t.getValue() + nextChar);
 					nextChar = readChar();
-					return t;
 				}else {
 					t.setType("Other");
 				}
@@ -272,6 +271,7 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
 
