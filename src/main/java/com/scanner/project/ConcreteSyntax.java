@@ -150,8 +150,9 @@ public class ConcreteSyntax {
 		Assignment a = new Assignment();
 		
 		if (token.getType().equals("Identifier")) {
-			a.target= new Variable();
-			a.target.id= token.getValue();
+			Variable v = new Variable();
+			v.id= token.getValue();
+			a.target = v
 			token = input.nextToken();
 			match(":=");
 			a.source = expression();
