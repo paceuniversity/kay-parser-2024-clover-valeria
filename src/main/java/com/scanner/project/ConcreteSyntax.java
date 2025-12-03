@@ -29,7 +29,6 @@ public class ConcreteSyntax {
 	private String SyntaxError(String tok) {
 		String s = "Syntax error - Expecting: " + tok + " But saw: "
 				+ token.getType() + " = " + token.getValue();
-		System.out.println(s);
 		return s;
 		// System.exit(0);
 	}
@@ -77,12 +76,13 @@ public class ConcreteSyntax {
 	private Type type() {
 		// Type --> integer | bool
 		Type t = null;
-		if (token.getValue().equals("integer"))
-			t = new Type(Type.INTEGER);
-		else if (token.getValue().equals("bool"))
-			t = new Type(Type.BOOLEAN);
-		else
+		if (token.getValue().equals("integer")){
+			t = new Type("integer");
+		} else if (token.getValue().equals("bool")){
+			t = new Type("bool");
+		} else
 			throw new RuntimeException(SyntaxError("integer | bool")); //changed confusing wording
+		}	
 		token = input.nextToken(); // pass over the type
 		return t;
 	}
@@ -200,7 +200,7 @@ public class ConcreteSyntax {
 				|| token.getValue().equals(">")
 				|| token.getValue().equals(">=")
 				|| token.getValue().equals("==")
-				|| token.getValue().equals("!=")) {
+				|| token.getValue().equals("<>")) {
 			b = new Binary();
 			b.term1=e;
 			b.op=new Operator(token.getValue());
