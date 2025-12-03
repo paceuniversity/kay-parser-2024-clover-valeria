@@ -78,9 +78,9 @@ public class ConcreteSyntax {
 		// Type --> integer | bool
 		Type t = null;
 		if (token.getValue().equals("integer"))
-			t = new Type(token.getValue());
+			t = new Type(Type.INTEGER);
 		else if (token.getValue().equals("bool"))
-			t = new Type(token.getValue());
+			t = new Type(Type.BOOLEAN);
 		else
 			throw new RuntimeException(SyntaxError("integer | bool")); //changed confusing wording
 		token = input.nextToken(); // pass over the type
