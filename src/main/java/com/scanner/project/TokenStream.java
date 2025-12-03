@@ -74,8 +74,8 @@ public class TokenStream {
 					skipWhiteSpace();
 				} else {
 				// A slash followed by anything else must be an operator.
-				t.setValue("/");
 				t.setType("Operator");
+				t.setValue("/");
 				return t;
 			}
 		}
@@ -86,11 +86,25 @@ public class TokenStream {
 			t.setType("Operator");
 			t.setValue(t.getValue() + nextChar);
 			switch (nextChar) {
-			case '<':
+			case ':':
+				nextChar = readChar(); 
+				if (nextChar == '=') {
+					t.setValue(t.getValue() + nextChar);
+					nextChar=readChar();
+				}else {
+					t.setType("Other");
+					return t;
+				}
+				// == //esto lo cmabiamos para que reconociera :=
+				
+				case '<':
 				// <=
 				nextChar = readChar();
 				if (nextChar == '=') {
-					t.setValue(t.getValue() + nextChar);
+					t.setValue("<=");
+					nextChar = readChar();
+				} else if (nextChar == '>') {
+					t.setValue("<>")
 					nextChar = readChar();
 				}
 				return t;
@@ -101,17 +115,18 @@ public class TokenStream {
 					nextChar = readChar();
 				}
             	return t;
-			case ':':
-				nextChar = readChar(); 
+		
+			case '=':  // == operator
+				nextChar = readChar();
 				if (nextChar == '=') {
+					t.setType("Operator");
 					t.setValue(t.getValue() + nextChar);
 					nextChar=readChar();
 				}else {
 					t.setType("Other");
 				}
 				return t;
-				// == //esto lo cmabiamos para que reconociera :=
-				
+					
 			case '!':
 				nextChar = readChar();
 				if (nextChar == '=') {
@@ -137,17 +152,6 @@ public class TokenStream {
 				if (nextChar == '&') {
 					t.setValue(t.getValue() + nextChar);
 					nextChar = readChar();
-				}else {
-					t.setType("Other");
-				}
-				return t;
-
-			case '=':  // == operator
-				nextChar = readChar();
-				if (nextChar == '=') {
-					t.setType("Operator");
-					t.setValue(t.getValue() + nextChar);
-					nextChar=readChar();
 				}else {
 					t.setType("Other");
 				}
@@ -284,6 +288,7 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
 
