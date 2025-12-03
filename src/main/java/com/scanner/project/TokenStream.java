@@ -30,13 +30,15 @@ public class TokenStream {
 	// Constructor
 	// Pass a filename for the program text as a source for the TokenStream.
 	public TokenStream(String fileName) {
-	    try {
-	        input = new BufferedReader(new FileReader(fileName));
-			nextChar = readChar();
-	    } catch (FileNotFoundException e) {
-	        System.out.println("File not found: " + fileName);
-	        isEof = true;
-	    }
+		try {
+			input = new BufferedReader(new FileReader(fileName));
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found: " + fileName);
+			// System.exit(1); // Removed to allow ScannerDemo to continue
+			// running after the input file is not found.
+			isEof = true;
+		}
+		nextChar=readChar();
 	}
 
 	public Token nextToken() { // Main function of the scanner
@@ -59,23 +61,12 @@ public class TokenStream {
 				while (!isEof && !isEndOfLine(nextChar)){
 					nextChar = readChar();
 				}
-			} else if (nextChar=='*'){
-				nextChar=readChar();
-				while(!isEof){
-					if (nextChar=='*'){
-						nextChar=readChar();
-						if (nextChar =='/'){
-							nextChar=readChar();
-							break;
-						}
-					} else{
-						nextChar=readChar();
-					}
-					skipWhiteSpace();
-				} else {
+				nextChar = readChar(); //move past new line
+				skipWhiteSpace();
+			} else {
 				// A slash followed by anything else must be an operator.
-				t.setType("Operator");
 				t.setValue("/");
+				t.setType("Operator");
 				return t;
 			}
 		}
@@ -86,25 +77,11 @@ public class TokenStream {
 			t.setType("Operator");
 			t.setValue(t.getValue() + nextChar);
 			switch (nextChar) {
-			case ':':
-				nextChar = readChar(); 
-				if (nextChar == '=') {
-					t.setValue(t.getValue() + nextChar);
-					nextChar=readChar();
-				}else {
-					t.setType("Other");
-					return t;
-				}
-				// == //esto lo cmabiamos para que reconociera :=
-				
-				case '<':
+			case '<':
 				// <=
 				nextChar = readChar();
 				if (nextChar == '=') {
-					t.setValue("<=");
-					nextChar = readChar();
-				} else if (nextChar == '>') {
-					t.setValue("<>");
+					t.setValue(t.getValue() + nextChar);
 					nextChar = readChar();
 				}
 				return t;
@@ -115,18 +92,17 @@ public class TokenStream {
 					nextChar = readChar();
 				}
             	return t;
-		
-			case '=':  // == operator
-				nextChar = readChar();
+			case ':':
+				nextChar = readChar(); 
 				if (nextChar == '=') {
-					t.setType("Operator");
 					t.setValue(t.getValue() + nextChar);
 					nextChar=readChar();
 				}else {
 					t.setType("Other");
 				}
 				return t;
-					
+				// == //esto lo cmabiamos para que reconociera :=
+				
 			case '!':
 				nextChar = readChar();
 				if (nextChar == '=') {
@@ -141,6 +117,7 @@ public class TokenStream {
 				if (nextChar == '|') {
 					t.setValue(t.getValue() + nextChar);
 					nextChar = readChar();
+					return t;
 				}else {
 					t.setType("Other");
 				}
@@ -157,10 +134,17 @@ public class TokenStream {
 				}
 				return t;
 
-			case '*':
+			case '=':  // == operator
 				nextChar = readChar();
+				if (nextChar == '=') {
+					t.setType("Operator");
+					t.setValue(t.getValue() + nextChar);
+					nextChar=readChar();
+				}else {
+					t.setType("Other");
+				}
 				return t;
-					
+
 			default: // all other operators
 				nextChar = readChar();
 				return t;
@@ -256,8 +240,8 @@ public class TokenStream {
 		return (c == '\r' || c == '\n' || c == '\f');
 	}
 
-	private boolean isEndOfToken(char c) {
-    	return (isWhiteSpace(c) || isOperator(c) || isSeparator(c) || isEof);	
+	private boolean isEndOfToken(char c) { // Is the value a seperate token?
+		return (isWhiteSpace(c) || isOperator(c) || isSeparator(c) || isEof);
 	}
 
 	private void skipWhiteSpace() {
@@ -288,17 +272,4 @@ public class TokenStream {
 		return isEof;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
