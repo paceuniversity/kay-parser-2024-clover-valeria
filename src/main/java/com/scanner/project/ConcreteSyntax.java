@@ -47,15 +47,12 @@ public class ConcreteSyntax {
 
 	public Program program() {
 		// Program --> main '{' Declarations Statements '}'
-		String[] header = { "main", "{" };
+		this.match("main");
+		this.match("{");
 		Program p = new Program();
-		
-		for (int i = 0; i < header.length; i++)
-			// bypass " main { "
-			match(header[i]);
 		p.decpart = declarations();
 		p.body = statements();
-		match("}");
+		this.match("}");
 		
 		return p;
 		}
@@ -85,7 +82,7 @@ public class ConcreteSyntax {
 		else if (token.getValue().equals("bool"))
 			t = new Type(token.getValue());
 		else
-			throw new RuntimeException(SyntaxError("int | boolean")); //changed confusing wording
+			throw new RuntimeException(SyntaxError("integer | bool")); //changed confusing wording
 		token = input.nextToken(); // pass over the type
 		return t;
 	}
@@ -152,7 +149,7 @@ public class ConcreteSyntax {
 		if (token.getType().equals("Identifier")) {
 			Variable v = new Variable();
 			v.id= token.getValue();
-			a.target = v
+			a.target = v;
 			token = input.nextToken();
 			match(":=");
 			a.source = expression();
@@ -203,7 +200,7 @@ public class ConcreteSyntax {
 				|| token.getValue().equals(">")
 				|| token.getValue().equals(">=")
 				|| token.getValue().equals("==")
-				|| token.getValue().equals("<>")) {
+				|| token.getValue().equals("!=")) {
 			b = new Binary();
 			b.term1=e;
 			b.op=new Operator(token.getValue());
