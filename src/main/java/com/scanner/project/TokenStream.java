@@ -104,7 +104,7 @@ public class TokenStream {
 					t.setValue("<=");
 					nextChar = readChar();
 				} else if (nextChar == '>') {
-					t.setValue("<>")
+					t.setValue("<>");
 					nextChar = readChar();
 				}
 				return t;
@@ -288,6 +288,7 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
 
