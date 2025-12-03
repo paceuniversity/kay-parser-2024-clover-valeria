@@ -32,6 +32,7 @@ public class TokenStream {
 	public TokenStream(String fileName) {
 	    try {
 	        input = new BufferedReader(new FileReader(fileName));
+			nextChar = readChar();
 	    } catch (FileNotFoundException e) {
 	        System.out.println("File not found: " + fileName);
 	        isEof = true;
@@ -241,8 +242,8 @@ public class TokenStream {
 		return (c == '\r' || c == '\n' || c == '\f');
 	}
 
-	private boolean isEndOfToken(char c) { // Is the value a seperate token?
-		return (isWhiteSpace(nextChar) || isOperator(nextChar) || isSeparator(nextChar) || isEof);
+	private boolean isEndOfToken(char c) {
+    	return (isWhiteSpace(c) || isOperator(c) || isSeparator(c) || isEof);	
 	}
 
 	private void skipWhiteSpace() {
@@ -273,6 +274,7 @@ public class TokenStream {
 		return isEof;
 	}
 }
+
 
 
 
