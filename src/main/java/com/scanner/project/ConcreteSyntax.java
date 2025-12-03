@@ -47,9 +47,9 @@ public class ConcreteSyntax {
 
 	public Program program() {
 		// Program --> main '{' Declarations Statements '}'
+		Program p = new Program();
 		this.match("main");
 		this.match("{");
-		Program p = new Program();
 		p.decpart = declarations();
 		p.body = statements();
 		this.match("}");
@@ -182,10 +182,10 @@ public class ConcreteSyntax {
 		e = relation();
 		while (token.getValue().equals("&&")) {
 			b = new Binary();
-			b.term1= e;
-			b.op= new Operator(token.getValue());
-			token=input.nextToken();
-			b.term2=relation();
+			b.term1 = e;
+			b.op = new Operator(token.getValue());
+			token = input.nextToken();
+			b.term2 = relation();
 			e = b;
 		}
 		return e;
@@ -268,9 +268,9 @@ public class ConcreteSyntax {
 			Value v = null;
 			if (isInteger(token.getValue()))
 				v = new Value((new Integer(token.getValue())).intValue());
-			else if (token.getValue().equals("True")|| token.getValue().equals("true"))
+			else if (token.getValue().equals("True"))
 				v = new Value(true);
-			else if (token.getValue().equals("False")|| token.getValue().equals("false"))
+			else if (token.getValue().equals("False"))
 				v = new Value(false);
 			else
 				throw new RuntimeException(SyntaxError("Literal"));
